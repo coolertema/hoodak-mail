@@ -1,0 +1,30 @@
+name = "hoodak-mail"
+main = "worker/src/server.js"
+compatibility_date = "2024-01-01"
+
+# D1 Database Binding
+[[d1_databases]]
+binding = "TEMP_MAIL_DB"
+database_name = "maill_free_db" # Replace with your D1 database name
+database_id = "bcf41fc6-d67a-4603-9cfd-6c3b7498ffd4" # Updated with user's database_id
+preview_database_id = "46d67b6b-4a93-46d67b6b-9769-46d67b6b"
+
+# Environment Variables
+[vars]
+# FORWARD_RULES="[{\"prefix\":\"vip\",\"email\":\"a@example.com\"},{\"prefix\":\"*\",\"email\":\"admin@example.com\"}]"
+MAIL_DOMAIN = "hoodak-team.lol"
+
+# Static Assets (Vite build output)
+[assets]
+directory = "dist"
+binding = "ASSETS"
+
+# R2 Bucket Binding (for full EML content)
+[[r2_buckets]]
+binding = "MAIL_EML"
+bucket_name = "mail-eml"
+preview_bucket_name = "mail-eml"
+
+# Observability
+# [observability.logs]
+# enabled = true
