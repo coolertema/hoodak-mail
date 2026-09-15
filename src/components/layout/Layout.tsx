@@ -25,11 +25,11 @@ export default function Layout({ children }: LayoutProps) {
     const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
     const navItems = [
-        { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['admin', 'user'] },
-        { to: '/compose', label: 'Compose', icon: PenSquare, roles: ['admin', 'user', 'mailbox'] },
-        { to: '/mailbox', label: 'Inbox', icon: Mail, roles: ['admin', 'user', 'mailbox'] },
-        { to: '/sent', label: 'Sent', icon: Send, roles: ['admin', 'user', 'mailbox'] },
-        { to: '/settings', label: 'Settings', icon: Settings, roles: ['admin', 'user'] },
+        { to: '/dashboard', label: 'Главная', icon: LayoutDashboard, roles: ['admin', 'user'] },
+        { to: '/compose', label: 'Написать', icon: PenSquare, roles: ['admin', 'user', 'mailbox'] },
+        { to: '/mailbox', label: 'Входящие', icon: Mail, roles: ['admin', 'user', 'mailbox'] },
+        { to: '/sent', label: 'Отправленные', icon: Send, roles: ['admin', 'user', 'mailbox'] },
+        { to: '/settings', label: 'Настройки', icon: Settings, roles: ['admin', 'user'] },
     ];
 
     const filteredNavItems = navItems.filter(item => item.roles.includes(user?.role || ''));
@@ -54,7 +54,7 @@ export default function Layout({ children }: LayoutProps) {
                 <div className="h-full flex flex-col">
                     <div className="h-16 flex items-center px-6 border-b">
                         <span className="text-xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-                            Open-Temp-Mail
+                            HoodakMail
                         </span>
                     </div>
 
@@ -89,7 +89,7 @@ export default function Layout({ children }: LayoutProps) {
                         </div>
                         <Button variant="outline" className="w-full justify-start text-muted-foreground" onClick={() => logout()}>
                             <LogOut className="mr-2 h-4 w-4" />
-                            Log out
+                            Выйти
                         </Button>
                     </div>
                 </div>

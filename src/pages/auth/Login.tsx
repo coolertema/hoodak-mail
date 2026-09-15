@@ -19,10 +19,10 @@ export default function Login() {
         setIsLoading(true);
         try {
             await login({ username, password });
-            toast.success('Login successful');
+            toast.success('Вход выполнен');
             navigate('/dashboard', { replace: true });
         } catch (error) {
-            const msg = error instanceof Error ? error.message : 'Login failed';
+            const msg = error instanceof Error ? error.message : 'Ошибка входа';
             toast.error(msg);
         } finally {
             setIsLoading(false);
@@ -38,9 +38,9 @@ export default function Login() {
                             <Mail className="h-8 w-8 text-primary" />
                         </div>
                     </div>
-                    <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
+                    <CardTitle className="text-2xl text-center">Добро пожаловать в HoodakMail</CardTitle>
                     <CardDescription className="text-center">
-                        Enter your credentials to access your account
+                        Войдите, чтобы управлять временной почтой
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -48,7 +48,7 @@ export default function Login() {
                         <div className="space-y-2">
                             <Input
                                 type="text"
-                                placeholder="Username or Email"
+                                placeholder="Логин или почта"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 disabled={isLoading}
@@ -66,12 +66,12 @@ export default function Login() {
                         </div>
                         <Button className="w-full" type="submit" disabled={isLoading}>
                             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            {isLoading ? 'Signing in...' : 'Sign In'}
+                            {isLoading ? 'Входим...' : 'Войти'}
                         </Button>
                     </form>
                 </CardContent>
                 <CardFooter className="flex justify-center text-sm text-muted-foreground">
-                    <p>Protected by Cloudflare</p>
+                    <p>Защищено Cloudflare</p>
                 </CardFooter>
             </Card>
         </div>

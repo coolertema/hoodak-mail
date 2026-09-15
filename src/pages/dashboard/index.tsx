@@ -67,21 +67,21 @@ export default function Dashboard() {
     return (
         <div className="p-6 space-y-6">
             <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold">Dashboard</h1>
+                <h1 className="text-3xl font-bold">Панель управления</h1>
             </div>
 
             <Tabs defaultValue="overview" className="space-y-4">
                 <TabsList>
-                    <TabsTrigger value="overview">Overview</TabsTrigger>
-                    {isAdmin && <TabsTrigger value="mailboxes">Mailboxes</TabsTrigger>}
-                    {isAdmin && <TabsTrigger value="users">Users</TabsTrigger>}
+                    <TabsTrigger value="overview">Обзор</TabsTrigger>
+                    {isAdmin && <TabsTrigger value="mailboxes">Ящики</TabsTrigger>}
+                    {isAdmin && <TabsTrigger value="users">Пользователи</TabsTrigger>}
                 </TabsList>
 
                 <TabsContent value="overview" className="space-y-4">
                     <div className="grid gap-4 md:grid-cols-3">
                         <Card>
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">Total Mailboxes</CardTitle>
+                                <CardTitle className="text-sm font-medium">Всего ящиков</CardTitle>
                                 <Users className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
@@ -93,11 +93,11 @@ export default function Dashboard() {
                         </Card>
                         <Card>
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">System Status</CardTitle>
+                                <CardTitle className="text-sm font-medium">Статус системы</CardTitle>
                                 <div className="h-4 w-4 rounded-full bg-green-500" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">Online</div>
+                                <div className="text-2xl font-bold">Работает</div>
                                 <p className="text-xs text-muted-foreground">
                                     Cloudflare Worker active
                                 </p>
@@ -109,7 +109,7 @@ export default function Dashboard() {
                         <TempMailGenerator />
                         <Card>
                             <CardHeader>
-                                <CardTitle>Recent Activity</CardTitle>
+                                <CardTitle>Последняя активность</CardTitle>
                                 <CardDescription>
                                     Overview of system activity.
                                 </CardDescription>

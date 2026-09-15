@@ -13,6 +13,7 @@ preview_database_id = "46d67b6b-4a93-46d67b6b-9769-46d67b6b"
 [vars]
 # FORWARD_RULES="[{\"prefix\":\"vip\",\"email\":\"a@example.com\"},{\"prefix\":\"*\",\"email\":\"admin@example.com\"}]"
 MAIL_DOMAIN = "hoodak-team.lol"
+ADMIN_NAME = "hoodakadmin"
 ADMIN_MAIL = "hoodakadmin"
 # Static Assets (Vite build output)
 [assets]

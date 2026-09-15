@@ -64,7 +64,7 @@ export function UserList() {
             <CardHeader>
                 <div className="flex items-center justify-between">
                     <div>
-                        <CardTitle>Users</CardTitle>
+                        <CardTitle>Пользователи</CardTitle>
                         <CardDescription>Manage system users.</CardDescription>
                     </div>
                     <Button onClick={() => setIsCreateOpen(true)}>
@@ -79,7 +79,7 @@ export function UserList() {
                         <TableRow>
                             <TableHead>Username</TableHead>
                             <TableHead>Role</TableHead>
-                            <TableHead>Mailboxes</TableHead>
+                            <TableHead>Ящики</TableHead>
                             <TableHead>Created</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
                         </TableRow>

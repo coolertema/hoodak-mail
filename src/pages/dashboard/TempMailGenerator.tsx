@@ -49,11 +49,11 @@ export function TempMailGenerator() {
             const data = await apiFetch<GeneratedEmail>(`/api/generate?length=8&domainIndex=${idx}`);
             if (data?.email) {
                 setGeneratedEmail(data.email);
-                toast.success('Random email generated!');
+                toast.success('Адрес создан');
             }
         } catch (error) {
-            console.error('Failed to generate email', error);
-            toast.error('Failed to generate email');
+            console.error('Не удалось создать адрес', error);
+            toast.error('Не удалось создать адрес');
         } finally {
             setIsGenerating(false);
         }
@@ -87,7 +87,7 @@ export function TempMailGenerator() {
             if (data?.email) {
                 setGeneratedEmail(data.email);
                 setCustomLocal('');
-                toast.success('Custom email created!');
+                toast.success('Адрес создан');
             }
         } catch (error) {
             console.error('Failed to create email', error);
@@ -100,7 +100,7 @@ export function TempMailGenerator() {
     const handleCopy = () => {
         if (generatedEmail) {
             navigator.clipboard.writeText(generatedEmail);
-            toast.success('Email copied to clipboard!');
+            toast.success('Адрес скопирован');
         }
     };
 
@@ -109,27 +109,27 @@ export function TempMailGenerator() {
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <Mail className="h-5 w-5" />
-                    Temp Mail Generator
+                    Генератор временной почты
                 </CardTitle>
                 <CardDescription>
-                    Generate temporary email addresses for testing or privacy
+                    Создайте временный адрес на домене HoodakMail
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
                 <Tabs defaultValue="random" className="w-full">
                     <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="random">Random</TabsTrigger>
-                        <TabsTrigger value="custom">Custom</TabsTrigger>
+                        <TabsTrigger value="random">Случайный</TabsTrigger>
+                        <TabsTrigger value="custom">Свой адрес</TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="random" className="space-y-4">
                         <div className="space-y-2">
-                            <Label>Generate Random Email</Label>
+                            <Label>Создать случайный адрес</Label>
                             <p className="text-sm text-muted-foreground">
-                                Click the button below to generate a random temporary email address
+                                Нажмите кнопку, чтобы получить новый временный адрес
                             </p>
                             <div className="flex items-center gap-2">
-                                <span className="text-sm font-medium">Domain:</span>
+                                <span className="text-sm font-medium">Домен:</span>
                                 <Select value={selectedDomain} onValueChange={setSelectedDomain} disabled={domains.length === 0}>
                                     <SelectTrigger className="w-[200px]">
                                         <SelectValue placeholder="Select domain" />
@@ -152,12 +152,12 @@ export function TempMailGenerator() {
                             {isGenerating ? (
                                 <>
                                     <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                                    Generating...
+                                    Создаём...
                                 </>
                             ) : (
                                 <>
                                     <Sparkles className="mr-2 h-4 w-4" />
-                                    Generate Random Email
+                                    Создать случайный адрес
                                 </>
                             )}
                         </Button>
@@ -165,7 +165,7 @@ export function TempMailGenerator() {
 
                     <TabsContent value="custom" className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="custom-local">Custom Email Address</Label>
+                            <Label htmlFor="custom-local">Свой адрес</Label>
                             <div className="flex gap-2">
                                 <Input
                                     id="custom-local"
@@ -209,7 +209,7 @@ export function TempMailGenerator() {
                             ) : (
                                 <>
                                     <Mail className="mr-2 h-4 w-4" />
-                                    Create Custom Email
+                                    Создать адрес
                                 </>
                             )}
                         </Button>
@@ -218,7 +218,7 @@ export function TempMailGenerator() {
 
                 {generatedEmail && (
                     <div className="mt-4 p-4 bg-muted rounded-lg space-y-2">
-                        <Label className="text-sm font-medium">Generated Email</Label>
+                        <Label className="text-sm font-medium">Ваш временный адрес</Label>
                         <div className="flex items-center gap-2">
                             <Input
                                 value={generatedEmail}
@@ -235,7 +235,7 @@ export function TempMailGenerator() {
                             </Button>
                         </div>
                         <p className="text-xs text-muted-foreground">
-                            Click the copy button to copy the email address to your clipboard
+                            Нажмите кнопку справа, чтобы скопировать адрес
                         </p>
                     </div>
                 )}
