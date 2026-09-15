@@ -108,3 +108,4 @@ open-temp-mail/
 <p align="center">
   Built with ❤️ by the Syntax-Error-1337
 </p>
+ 
