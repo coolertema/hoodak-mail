@@ -47,6 +47,7 @@ async function performFirstTimeSetup(db) {
     await db.prepare('SELECT 1 FROM sent_emails LIMIT 1').all();
     // 所有5个必要表都存在，执行字段迁移
     await migrateMailboxesFields(db);
+    await ensureSignupSecurityTables(db);
     return;
   } catch (e) {
     // 有表不存在，继续初始化
@@ -62,6 +63,12 @@ async function performFirstTimeSetup(db) {
   
   // 创建索引
   await createIndexes(db);
+  await ensureSignupSecurityTables(db);
+}
+
+async function ensureSignupSecurityTables(db) {
+  await db.exec("CREATE TABLE IF NOT EXISTS signup_rate_limits (ip_hash TEXT PRIMARY KEY, window_started_at INTEGER NOT NULL, attempts INTEGER NOT NULL DEFAULT 0);");
+  await db.exec("CREATE INDEX IF NOT EXISTS idx_signup_rate_window ON signup_rate_limits(window_started_at);");
 }
 
 /**
@@ -205,4 +212,5 @@ export async function setupDatabase(db) {
   
   // 创建所有索引
   await createIndexes(db);
+  await ensureSignupSecurityTables(db);
 }

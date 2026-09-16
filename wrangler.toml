@@ -15,6 +15,10 @@ preview_database_id = "46d67b6b-4a93-46d67b6b-9769-46d67b6b"
 MAIL_DOMAIN = "hoodak-team.lol"
 ADMIN_NAME = "hoodakadmin"
 ADMIN_MAIL = "hoodakadmin"
+# Public registration. Set to "0" to temporarily disable new accounts.
+PUBLIC_SIGNUP_ENABLED = "1"
+# Optional Turnstile public key. Add TURNSTILE_SECRET_KEY as a Worker secret.
+# TURNSTILE_SITE_KEY = "your-site-key"
 # Static Assets (Vite build output)
 [assets]
 directory = "dist"

@@ -86,7 +86,7 @@ export async function handleEmailsApi(request, db, url, path, options) {
 
       let timeFilter = '';
       let timeParam = [];
-      if (isMailboxOnly) {
+      if (isMailboxOnly && getJwtPayload(request, options)?.role === 'mailbox') {
         const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
         timeFilter = ' AND received_at >= ?';
         timeParam = [twentyFourHoursAgo];
@@ -142,7 +142,7 @@ export async function handleEmailsApi(request, db, url, path, options) {
 
       let timeFilter = '';
       let timeParam = [];
-      if (isMailboxOnly) {
+      if (isMailboxOnly && getJwtPayload(request, options)?.role === 'mailbox') {
         const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
         timeFilter = ' AND received_at >= ?';
         timeParam = [twentyFourHoursAgo];
@@ -222,7 +222,7 @@ export async function handleEmailsApi(request, db, url, path, options) {
     try {
       let timeFilter = '';
       let timeParam = [];
-      if (isMailboxOnly) {
+      if (isMailboxOnly && getJwtPayload(request, options)?.role === 'mailbox') {
         const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
         timeFilter = ' AND received_at >= ?';
         timeParam = [twentyFourHoursAgo];

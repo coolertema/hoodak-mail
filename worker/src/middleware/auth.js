@@ -3,6 +3,8 @@
  * @module middleware/auth
  */
 
+import { verifyPassword as verifyStoredPassword, hashPassword as hashStoredPassword } from '../utils/common.js';
+
 export const COOKIE_NAME = 'iding-session';
 
 // 默认会话过期时间（天）
@@ -158,30 +160,13 @@ export async function verifyMailboxLogin(emailAddress, password, DB) {
 }
 
 /**
- * SHA256哈希函数
- */
-async function sha256Hex(text) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-/**
  * 验证密码
  * @param {string} rawPassword - 原始密码
  * @param {string} hashed - 哈希密码
  * @returns {Promise<boolean>} 验证结果
  */
 export async function verifyPassword(rawPassword, hashed) {
-  if (!hashed) return false;
-  try {
-    const hex = (await sha256Hex(rawPassword)).toLowerCase();
-    return hex === String(hashed || '').toLowerCase();
-  } catch (_) {
-    return false;
-  }
+  return verifyStoredPassword(rawPassword, hashed);
 }
 
 /**
@@ -190,7 +175,7 @@ export async function verifyPassword(rawPassword, hashed) {
  * @returns {Promise<string>} 哈希后的密码
  */
 export async function hashPassword(password) {
-  return await sha256Hex(password);
+  return hashStoredPassword(password);
 }
 
 function base64UrlEncode(data) {
@@ -291,7 +276,7 @@ export async function authMiddleware(context) {
   const { request, env } = context;
   const url = new URL(request.url);
 
-  const publicPaths = ['/api/login', '/api/logout'];
+  const publicPaths = ['/api/login', '/api/logout', '/api/register', '/api/public-config'];
   if (publicPaths.includes(url.pathname)) {
     return null;
   }
@@ -314,15 +299,7 @@ export async function authMiddleware(context) {
     const payload = await verifyJwtWithCache(JWT_TOKEN, cookieHeader);
     
     if (!payload) {
-      return new Response(JSON.stringify({
-        error: 'Unauthorized',
-        debug: {
-          hasCookie: !!cookieHeader,
-          cookieStart: cookieHeader ? cookieHeader.substring(0, 30) + '...' : 'none',
-          jwtConfigured: !!JWT_TOKEN,
-          hasCache: !!globalThis.__JWT_CACHE__,
-        }
-      }), { 
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { 
         status: 401, 
         headers: {
           'Content-Type': 'application/json'

@@ -26,10 +26,10 @@ export default function Layout({ children }: LayoutProps) {
 
     const navItems = [
         { to: '/dashboard', label: 'Главная', icon: LayoutDashboard, roles: ['admin', 'user'] },
-        { to: '/compose', label: 'Написать', icon: PenSquare, roles: ['admin', 'user', 'mailbox'] },
+        { to: '/compose', label: 'Написать', icon: PenSquare, roles: ['admin', 'mailbox'] },
         { to: '/mailbox', label: 'Входящие', icon: Mail, roles: ['admin', 'user', 'mailbox'] },
-        { to: '/sent', label: 'Отправленные', icon: Send, roles: ['admin', 'user', 'mailbox'] },
-        { to: '/settings', label: 'Настройки', icon: Settings, roles: ['admin', 'user'] },
+        { to: '/sent', label: 'Отправленные', icon: Send, roles: ['admin', 'mailbox'] },
+        { to: '/settings', label: 'Настройки', icon: Settings, roles: ['admin'] },
     ];
 
     const filteredNavItems = navItems.filter(item => item.roles.includes(user?.role || ''));

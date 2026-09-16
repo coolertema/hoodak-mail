@@ -202,3 +202,42 @@ select:focus {
   body { background: #050505; }
 }
 /* HOODAKMAIL THEME END */
+
+/* Public account UI */
+.hoodak-auth-screen {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(37, 99, 235, .20), transparent 34rem),
+    #050505;
+}
+
+.hoodak-auth-card {
+  background: rgba(12, 12, 13, .92) !important;
+  border-color: rgba(255, 255, 255, .11) !important;
+  box-shadow: 0 28px 100px rgba(0, 0, 0, .62) !important;
+  backdrop-filter: blur(24px);
+}
+
+.hoodak-auth-tab {
+  min-height: 38px;
+  border-radius: 9px !important;
+  color: #9ca3af;
+  font-size: .875rem;
+  font-weight: 600;
+}
+
+.hoodak-auth-tab.is-active {
+  background: rgba(255, 255, 255, .09);
+  color: white;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08);
+}
+
+.hoodak-address-input:focus-within {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, .16);
+}
+
+.hoodak-personal-mailbox {
+  background:
+    radial-gradient(circle at 90% 10%, rgba(59, 130, 246, .16), transparent 22rem),
+    rgba(12, 12, 13, .92) !important;
+}

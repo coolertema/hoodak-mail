@@ -58,6 +58,42 @@ export async function sha256Hex(text) {
   return out;
 }
 
+const PASSWORD_SCHEME = 'pbkdf2-sha256';
+const PASSWORD_ITERATIONS = 120000;
+
+function bytesToBase64(bytes) {
+  let binary = '';
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary);
+}
+
+function base64ToBytes(value) {
+  const binary = atob(value);
+  return Uint8Array.from(binary, char => char.charCodeAt(0));
+}
+
+function timingSafeEqual(left, right) {
+  if (left.length !== right.length) return false;
+  let diff = 0;
+  for (let i = 0; i < left.length; i++) diff |= left[i] ^ right[i];
+  return diff === 0;
+}
+
+/** Hash a password with a random salt using Web Crypto PBKDF2. */
+export async function hashPassword(password) {
+  const raw = String(password || '');
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const key = await crypto.subtle.importKey(
+    'raw', new TextEncoder().encode(raw), 'PBKDF2', false, ['deriveBits']
+  );
+  const bits = await crypto.subtle.deriveBits(
+    { name: 'PBKDF2', hash: 'SHA-256', salt, iterations: PASSWORD_ITERATIONS },
+    key,
+    256
+  );
+  return `${PASSWORD_SCHEME}$${PASSWORD_ITERATIONS}$${bytesToBase64(salt)}$${bytesToBase64(new Uint8Array(bits))}`;
+}
+
 /**
  * 验证原始密码与哈希密码是否匹配
  * @param {string} rawPassword - 原始明文密码
@@ -67,8 +103,24 @@ export async function sha256Hex(text) {
 export async function verifyPassword(rawPassword, hashed) {
   if (!hashed) return false;
   try {
+    const value = String(hashed || '');
+    if (value.startsWith(`${PASSWORD_SCHEME}$`)) {
+      const [, iterationsRaw, saltRaw, expectedRaw] = value.split('$');
+      const iterations = Number(iterationsRaw);
+      if (!Number.isInteger(iterations) || iterations < 100000 || iterations > 1000000) return false;
+      const salt = base64ToBytes(saltRaw);
+      const expected = base64ToBytes(expectedRaw);
+      const key = await crypto.subtle.importKey(
+        'raw', new TextEncoder().encode(String(rawPassword || '')), 'PBKDF2', false, ['deriveBits']
+      );
+      const bits = await crypto.subtle.deriveBits(
+        { name: 'PBKDF2', hash: 'SHA-256', salt, iterations }, key, expected.length * 8
+      );
+      return timingSafeEqual(new Uint8Array(bits), expected);
+    }
+    // Backwards compatibility for accounts created by older HoodakMail builds.
     const hex = (await sha256Hex(rawPassword)).toLowerCase();
-    return hex === String(hashed || '').toLowerCase();
+    return hex === value.toLowerCase();
   } catch (_) {
     return false;
   }

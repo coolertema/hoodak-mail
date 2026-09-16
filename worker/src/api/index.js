@@ -37,15 +37,19 @@ export async function handleApiRequest(request, db, mailDomains, options = {
     const mailboxId = payload?.mailboxId;
     
     // 允许的API端点
-    const allowedPaths = ['/api/emails', '/api/email/', '/api/auth', '/api/quota', '/api/mailbox/password'];
+    const allowedPaths = ['/api/emails', '/api/email/', '/api/user/quota', '/api/mailbox/password'];
     const isAllowedPath = allowedPaths.some(allowedPath => path.startsWith(allowedPath));
     
     if (!isAllowedPath) {
       return errorResponse('访问被拒绝', 403);
     }
+
+    if (path === '/api/emails/batch') {
+      return errorResponse('Доступ запрещён', 403);
+    }
     
     // 对于邮件相关API，限制只能访问自己的邮箱
-    if (path === '/api/emails' && request.method === 'GET') {
+    if (path === '/api/emails') {
       const requestedMailbox = url.searchParams.get('mailbox');
       if (requestedMailbox && requestedMailbox.toLowerCase() !== mailboxAddress?.toLowerCase()) {
         return errorResponse('只能访问自己的邮箱', 403);

@@ -75,6 +75,13 @@ CREATE TABLE IF NOT EXISTS sent_emails (
   updated_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Ограничение публичных регистраций без хранения IP-адресов
+CREATE TABLE IF NOT EXISTS signup_rate_limits (
+  ip_hash TEXT PRIMARY KEY,
+  window_started_at INTEGER NOT NULL,
+  attempts INTEGER NOT NULL DEFAULT 0
+);
+
 -- 创建索引
 
 -- mailboxes 索引
@@ -103,4 +110,4 @@ CREATE INDEX IF NOT EXISTS idx_user_mailboxes_composite ON user_mailboxes(user_i
 CREATE INDEX IF NOT EXISTS idx_sent_emails_resend_id ON sent_emails(resend_id);
 CREATE INDEX IF NOT EXISTS idx_sent_emails_status_created ON sent_emails(status, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_sent_emails_from_addr ON sent_emails(from_addr);
-
+CREATE INDEX IF NOT EXISTS idx_signup_rate_window ON signup_rate_limits(window_started_at);
